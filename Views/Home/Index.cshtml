@@ -1,0 +1,48 @@
+﻿@model IEnumerable<System.Security.Claims.Claim>
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="text-center"><p>
+    <h5 class="display-5">Enable your ASP.NET Core web app to sign in users and call Microsoft Graph with the Microsoft identity platform </h5>
+    </p>
+    <img src="https://github.com/Azure-Samples/active-directory-aspnetcore-webapp-openidconnect-v2/raw/master/2-WebApp-graph-user/2-1-Call-MSGraph/ReadmeFiles/sign-in.png" />
+    <p>Integrate an ASP.NET Core web app with the Microsoft Identity platform and calls Microsoft Graph API for the signed-in user</p>
+</div>
+
+
+<h2 class="bg-primary m-1 p-1 text-white">Claims</h2>
+<p><b>Subject:</b>@Model.First().Subject.Name</p>
+<p><b>Issuer:</b>@Model.First().Issuer</p>
+
+<table class="table table-sm table-bordered">
+    <tr>
+        <th>Type</th>
+        <th>Value</th>
+    </tr>
+
+    @foreach (var claim in Model)
+    {
+        @if (claim.Type != "aio")
+        {
+            <tr>
+                <td>@claim.Type</td>
+                <td>@claim.Value</td>
+            </tr>
+        }
+    }
+</table>
+
+<h2 class="bg-primary m-1 p-1 text-white">App Configuration and Key Vault</h2>
+<ul>
+    <li>@Configuration["AMSDemo:Settings:Message"]</li>
+    <li>@Configuration["AMSDemo:Settings:TenantId"]</li>
+    <li>@Configuration["AMSDemo:Settings:ClientId"]</li>
+</ul>

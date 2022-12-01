@@ -1,0 +1,105 @@
+﻿@using Newtonsoft.Json.Linq
+@{
+    ViewData["Title"] = "User Profile fetched from MS Graph";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<br />
+<h1>Signed-in user's Profile</h1>
+
+<table class="table table-striped table-condensed" style="font-family: monospace" border="1">
+    <thead>
+        <tr>
+            <th>
+                Profile picture
+            </th>
+            <th>
+                @{
+                    if (ViewData["photo"] != null)
+                    {
+                        <img style="margin: 5px 0; width: 150px" src="data:image/jpeg;base64, @ViewData["photo"]" />
+                    }
+                    else
+                    {
+                        <p>No Pic available for this user. Upload a pic for this user in the Azure portal</p>
+                    }
+                }
+            </th>
+            
+        </tr>
+        @{
+            var user = ViewData["me"] as Microsoft.Graph.User;
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    @user.Id
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Display Name
+                </th>
+                <th>
+                    @user.DisplayName
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Mail
+                </th>
+                <th>
+                    @user.Mail
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    UserPrincipalName
+                </th>
+                <th>
+                    @user.UserPrincipalName
+                </th>
+            </tr>
+            //<tr>
+            //    <th>
+            //        App Permissions
+            //    </th>
+            //    <th>
+
+            //    </th>
+            //    <th></th>
+            //</tr>
+        }
+
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+<h2 class="bg-primary m-1 p-1 text-white">Application Groups</h2>
+<ul>
+
+    @{
+        var groups = ViewData["groups"] as List<string>;
+        @foreach (var group in groups)
+        {
+                <li>@group</li>
+        }
+    }
+</ul>
+
+<h2 class="bg-primary m-1 p-1 text-white">AMS POC Superusers Members</h2>
+<ul>
+   
+    @{
+        var members = ViewData["groupmembers"] as List<Microsoft.Graph.User>;
+        @foreach (var member in members)
+        {
+          
+                <li>@member.DisplayName</li>
+   
+        }
+    }
+</ul>
